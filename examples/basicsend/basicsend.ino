@@ -21,14 +21,15 @@ XBeeFrame xbee;
 
 // Replace with your target XBee module's 64-bit address
 byte address[8] = {
-  0x00, 0x00, 0x00, 0x00,
-  0x00, 0x00, 0x00, 0x00
+  0x00, 0x13, 0xA2, 0x00,
+  0x42, 0x45, 0x06, 0x71
 };
 
 void setup() {
-  Serial.begin(9600);   // For debug output
-  Serial1.begin(9600);  // For XBee communication
-  xbee.begin(Serial1, address);
+  //Serial.begin(9600);   // For debug output
+  Serial8.begin(115200);  // For XBee communication
+  xbee.begin(Serial8, address);
+  xbee.bypass(); //use bypass only if programmable xbees
 
   Serial.println("XBeeFrame ready.");
   Serial.println("Sending message...");
@@ -37,9 +38,6 @@ void setup() {
 }
 
 void loop() {
-  String incoming = xbee.read();
-  if (incoming.length() > 0) {
-    Serial.print("Received: ");
-    Serial.println(incoming);
-  }
+ xbee.send("Hello XBee");
+ delay(1000);
 }
